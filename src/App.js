@@ -1,23 +1,33 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import { useFirebase } from './context/Firebase';
 
 function App() {
+
+  const firebase = useFirebase()
+  const [email, setEmail] = useState()
+  const [password, setPassword] = useState()
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Firebase React App</h1>
+      <input
+        onChange={e => setEmail(e.target.value)}
+        value={email}
+        type="email"
+        placeholder='Enter email address'
+      />
+      <input
+        onChange={e => setPassword(e.target.value)}
+        value={password}
+        type="password"
+        placeholder='Enter password'
+      />
+      <button
+        onClick={() => {
+          firebase.signupUserWithEmailAndPassword(email, password)
+          firebase.putData("users/asifraza", { email, password })
+        }}>Signup</button>
     </div>
   );
 }
